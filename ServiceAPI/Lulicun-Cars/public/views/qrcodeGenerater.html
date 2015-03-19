@@ -1,0 +1,14 @@
+<div id='qrcode_generater_body'>
+	<div id='generater_container'>
+		<div id="generater_page_name">QRCodeGenerater</div>	
+		<div id="generater_qrcode_img">
+		   	<img ng-src = "{{qrcodeUrl}}" />
+		</div>
+		<div id="generater_fancy_input">
+			<input type='text' name="email" ng-model='contact' placeholder='email or phonenumber' onfocus="this.placeholder = ''" onblur="this.placeholder = 'email or phonenumber'"/>
+			<div id="generater_sender" ng-click='getQRCode()' ></div>
+		</div>
+	</div>
+</div>
+
+

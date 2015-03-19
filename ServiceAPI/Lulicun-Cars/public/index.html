@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="Lulicun">
+    <head>
+        <title>Cars QRCode Reminder</title>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" type="text/css" href="/css/app.css">
+        <link rel="stylesheet" type="text/css" href="/css/qrcode-generater.css">
+        <link rel="stylesheet" type="text/css" href="/css/qrcode-reminder.css">
+
+        <script src="vendor/jquery/dist/jquery.js"></script>
+        <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-route/angular-route.js"></script>         
+
+        <script src='js/app.js' type="text/javascript"></script>
+        <script src='js/services/constants.js' type="text/javascript"></script>
+        <script src='js/controllers/homeController.js' type="text/javascript"></script>
+           
+        <script src='js/services/requestService.js' type="text/javascript"></script>
+        
+        <script src='js/controllers/qrcodeGeneraterController.js' type="text/javascript"></script>
+        <script src='js/controllers/qrcodeReminderController.js' type="text/javascript"></script>
+    </head>
+    <body ng-view></body>
+</html>

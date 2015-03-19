@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# if request is for /service/checkstatus
+# serve a minimal status page instead
+RewriteCond %{REQUEST_URI} ^/service\/checkstatus
+RewriteRule ^(.*?)/?$ status.php [L]
+
+# Forward any user controller requests to HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteCond %{REQUEST_URI} ^/user/
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+# Forward all other requests to Zend Framework router (index.php)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]

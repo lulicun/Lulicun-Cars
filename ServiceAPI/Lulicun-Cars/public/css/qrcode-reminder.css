@@ -1,0 +1,107 @@
+#qrcode_reminder_body {
+    background: #4f3b5b;
+    background: -moz-radial-gradient(center, ellipse cover,  #4f3b5b 0%, #231733 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#4f3b5b), color-stop(100%,#231733));
+    background: -webkit-radial-gradient(center, ellipse cover,  #4f3b5b 0%,#231733 100%);
+    background: -o-radial-gradient(center, ellipse cover,  #4f3b5b 0%,#231733 100%);
+    background: -ms-radial-gradient(center, ellipse cover,  #4f3b5b 0%,#231733 100%);
+    background: radial-gradient(ellipse at center,  #4f3b5b 0%,#231733 100%);
+    height: inherit;
+    width: inherit;
+    font-family:'Arvo'; 
+	font-weight: 400;
+	font-size: 22px;
+    color:#fff;
+    border: 15px solid #a1a1a1;
+}
+
+#reminder_page_name {
+    margin:5% auto;
+    font-size: 250%;
+    text-align: center;
+    text-align: -webkit-center;
+}
+
+#reminder_container {
+    width: inherit;
+    height: inherit;
+    position:relative;
+}
+
+#reminder_sender_result {
+    margin: 30% auto;
+    width: 80%;
+    height: 15%;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+}
+
+#reminder_sender_result p {
+    margin: 5%;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    text-align: -webkit-center;
+}
+
+#reminder_sender {
+    position: relative;
+    
+    display: block;
+    width: 100%;
+    height: 8%;
+    margin: 40% auto;
+    padding: 0px 0px;
+    border:0;
+    position: absolute;
+    text-align: center;
+}
+
+#sender_checkbox {
+    position: relative;
+    
+    background: -webkit-radial-gradient(#FFFFFF, #F5F5F5);
+    background: radial-gradient(#FFFFFF, #F5F5F5);
+
+    width: 40%;
+    height: 80%;
+
+    border:0;
+    border-radius: 50px;
+    box-shadow: 0 5px 0 0 #e9edee, 0 5px 0 2px #ccd2d2, 0 12px 20px 6px #d5dbdb;
+
+    text-align: center;
+    color: dimgrey;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 24px
+
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline:0;
+
+    -webkit-transition: all 1.0s ease-in-out;
+    transition: all 1.0s ease-in-out;
+    transform: rotateZ(0deg);
+}
+
+#sender_checkbox:after {
+    content: "Send";
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 24px
+}
+
+#sender_checkbox:active {
+    top: 20px;
+    box-shadow: 0 1px 0 2px #ccd2d2, 0 7px 20px 6px #d5dbdb;
+}
+
+#sender_checkbox:checked {
+    transform: rotateZ(720deg) translate(500px,500px) scale(0.0);
+}
+
