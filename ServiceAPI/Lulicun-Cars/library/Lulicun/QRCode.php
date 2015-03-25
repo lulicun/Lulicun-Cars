@@ -1,6 +1,6 @@
 <?php
 
-class Lulicun_QRCode extends Lulicun_Dbo{
+class Lulicun_QRCode extends Lulicun_Dbo {
 
 	protected static $_collection = 'qrcode';
 

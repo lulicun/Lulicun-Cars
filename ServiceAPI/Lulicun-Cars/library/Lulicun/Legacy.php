@@ -3,7 +3,7 @@
 /**
  *This class is used to do statistics of Lulicun.
 **/
-Class Lulicun_Legacy extends Lulicun_Dbo{
+Class Lulicun_Legacy extends Lulicun_Dbo {
 
 	protected static $_collection = 'counter';
 

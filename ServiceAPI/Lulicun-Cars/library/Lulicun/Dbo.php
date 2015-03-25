@@ -1,6 +1,6 @@
 <?php
 //Root Class, extended by all other classes talking with DB
-class Lulicun_Dbo{
+class Lulicun_Dbo {
 
 	private static $_db;
 	private static $_collection;
