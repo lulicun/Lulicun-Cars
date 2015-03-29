@@ -1,3 +1,5 @@
+# Ignore all kinds of libraries
 *
-!.gitignore 
-phpqrcode/*
+
+# Except phpqrcode library
+!phpqrcode
