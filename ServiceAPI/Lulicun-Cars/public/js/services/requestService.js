@@ -28,7 +28,7 @@ app.factory('requestService', ['$rootScope', '$http', 'apiEndpoint', 'apiVersion
 						callback(data.result);
 					}).
 					error(function(data, status, headers, config) {
-
+						callback("Fail to send reminder email!");
 					}
 				);
 			}

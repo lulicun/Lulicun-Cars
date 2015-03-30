@@ -31,7 +31,7 @@ class QrcodeController extends BaseController
 			}
 			$qrcodeAbsoluteFilePath = $qrcodeAbsoluteFolder . '/' . $fileName;
 			
-			$baseDomain = (APPLICATION_ENV != 'local')? 'http://car.lulicun.com/' : 'http://192.168.1.11/';
+			$baseDomain = (APPLICATION_ENV != 'local')? 'http://car.lulicun.com/' : 'http://192.168.1.3/';
 			$stringToQrcode = $baseDomain . '#/qrcodeReminder/' . $contactType . '_' . md5($contact);
 			
 			try{
@@ -65,19 +65,24 @@ class QrcodeController extends BaseController
 
     public function sendReminderAction()
     {
-    	//TODO: To send email
-    	//$this->_sendEmail($param1, $param2, $template);
+    	$encryptedContact = $_GET['encryptedContact'];
+    	$qrcode = Lulicun_QRCode::getByEncryptedContact($encryptedContact);
+    	$contact = $qrcode['contact'];
+    	$template = null;
+    	try {
+    		$this->_sendEmail($contact, $template);
+    	} catch (Exception $e) {
+    		$this->_helper->json(array('err' => $e->getMessage()));	
+    	}
     	$this->_helper->json(array('result' => 'success'));
     }
 
-    /*
-    private function _sendEmail($param1, $param2, $template) {
+    
+    private function _sendEmail($contact, $template) {
     	$mailer = new Lulicun_Mail();
-    	$response = $mailer->send($email_params);
-
+    	$response = $mailer->send($contact);
     	if (!$response) {
             throw new Zend_Controller_Action_Exception('Could not send email.', 500);
         }	
     }
-    */
 }
