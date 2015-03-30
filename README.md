@@ -12,16 +12,13 @@ http://www.vagrantup.com/downloads.html
 https://nodejs.org/download/
 
 4. Install bower
-
 npm install -g bower
 
 5. Download Front-end libraries 
-
 cd path/to/public
 bower install
 
 6. Fire application
-
 cd root/of/application
 vagrant up
 vagrant provision
