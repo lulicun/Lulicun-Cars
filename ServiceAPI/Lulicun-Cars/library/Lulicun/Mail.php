@@ -5,9 +5,14 @@
 
 class Lulicun_Mail {
 
-	public function send($contact) {
+	public function send($params) {
+		$token = Resque::enqueue('default', 'Application_Job_MoveCarReminder', array('params' => $params));
+		$status = new Resque_Job_Status($token);
+		error_log($status->get()); // Outputs the status
+		return true;
+	}
 
-		error_log($contact);
+	public static function _send($params) {
 		$mail = new PHPMailer;
 
 		$mail->isSMTP();                    // Set mailer to use SMTP
@@ -19,16 +24,17 @@ class Lulicun_Mail {
 		$mail->Host = 'smtp.googlemail.com';    		  // Specify main and backup server
 		$mail->Port = 465;                   		      // SMTP Server port
 		$mail->SMTPAuth = true;                           // Enable SMTP authentication
-		$mail->Username = 'servicelulicun@gmail.com';  // SMTP username
-		$mail->Password = 'Lulicun2015';                 // SMTP password
+		$mail->Username = $params['from'];  // SMTP username
+		$mail->Password = $params['password'];                 // SMTP password
 		$mail->SMTPSecure = 'ssl';                        // Enable encryption
 		
-		$mail->From = 'servicelulicun@gmail.com';	  // sender Email address shown on receiver page
-		$mail->FromName = 'Lulicun';				  // Sender name shown on receiver page
-		$mail->addAddress($contact); 
-		$mail->Subject = 'HTML Form Test';  
+		$mail->From = $params['replyto'];	  // sender Email address shown on receiver page
+		$mail->FromName = $params['name'];				  // Sender name shown on receiver page
+		$mail->addAddress($params['to']); 
+		$mail->Subject = $params['subject'];  
 		$mail->isHTML(true);  					// Subject of your Email message                       
-		$mail->Body = '<h1>Lulicun Reminder</h1><b>Please move you car as soon as possible</b>';
+		$mail->Body = $params['html'];;
+		
 		if(!$mail->send()) {
 			return false;
 		}

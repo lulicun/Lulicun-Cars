@@ -1,0 +1,52 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          queue
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      $portmap
+# Should-Stop:       $portmap
+# X-Start-Before:    nis
+# X-Stop-After:      nis
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+### END INIT INFO
+
+cd /var/www/Lulicun-Cars
+case "$1" in
+  start)
+    echo -n "Starting queue ... \n"
+    # Run queue in the backround, with both stdout and stderr saved in /var/log/queue.log, and use nohup to protect against HUP signals.
+    if ! pgrep -f resque > /dev/null; then
+        COUNT=4 QUEUE=default APP_INCLUDE=application/init.php nohup php -d xdebug.remote_enable=0 vendor/chrisboulton/php-resque/bin/resque >/var/log/queue.log 2>&1 &
+        echo "done"
+    else
+        echo "already started"
+    fi
+    ;;
+  stop)
+    echo -n "Stopping queue ... \n"
+    if pgrep -f resque > /dev/null; then
+        pkill -QUIT -f resque
+        echo "done"
+    else
+        echo "not started"
+    fi
+    ;;
+  restart)
+    # Re-run this script with stop and start arguments.
+    $0 stop
+    sleep 5
+    $0 start
+    ;;
+  reload|force-reload)
+    echo "WARNING reload and force-reload not supported by this script"
+    ;;
+  status)
+    echo -n "Queue status: "
+    if pgrep -f resque > /dev/null; then
+        echo "started"
+    else
+        echo "stopped"
+    fi
+esac

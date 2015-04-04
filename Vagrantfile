@@ -3,7 +3,7 @@ box      = 'trust64'
 url      = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
 hostname = 'local-cars'
 domain   = 'lulicun.com'
-ip       = '192.168.0.44'
+ip       = '192.168.1.12'
 vm_name     = 'lulicun-cars-vm'
 ram      = '512'
 
@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_url = url
     config.vm.host_name = hostname + '.' + domain
     config.vm.network "public_network", :bridge => 'en0: Wi-Fi (AirPort)'
-    config.vm.synced_folder './ServiceAPI/Lulicun-Cars/', '/var/www/Lulicun-Cars/', :owner=>'www-data', :group=>'www-data'
+    config.vm.synced_folder './ServiceAPI/Lulicun-Cars/', '/var/www/Lulicun-Cars/', :owner => "vagrant", :group => "www-data", :mount_options => ['dmode=775', 'fmode=775']
 
     config.vm.provider :virtualbox do |virtualbox|
         virtualbox.customize ['modifyvm', :id, '--name', vm_name]

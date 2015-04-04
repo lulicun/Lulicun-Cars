@@ -2,6 +2,6 @@
     "require": {
         "zendframework/zendframework1": "1.12.3",
         "phpmailer/phpmailer": "dev-master",
-        "chrisboulton/php-resque": "1.2.x"
+        "chrisboulton/php-resque": "dev-master"
     }
 }

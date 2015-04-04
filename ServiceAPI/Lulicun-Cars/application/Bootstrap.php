@@ -32,9 +32,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      * Initialise resources
      */
     protected function _initResourceAutoloader() {
+        $autoloader = new Zend_Loader_Autoloader_Resource(array(
+            'basePath' => APPLICATION_PATH,
+            'namespace' => 'Application',
+        ));
+
         $loader = Zend_Loader_Autoloader::getInstance();
         $loader->registerNamespace('Lulicun_');
         $loader->setFallbackAutoloader(true);
+
+        $autoloader->addResourceType('model', 'models', 'Model');
+        $autoloader->addResourceType('form', 'forms', 'Form');
+        $autoloader->addResourceType('job', 'jobs', 'Job');
+        return $autoloader;
+    }
+
+    protected function _initResque() {
+        Resque::setBackend($this->getResource('config')->get('redis')->get('host') . ':' .
+            $this->getResource('config')->get('redis')->get('port'));
     }
 }
 

@@ -11,6 +11,8 @@ set_include_path(
     PATH_SEPARATOR . get_include_path()
 );
 
+//define('APPLICATION_ENV', 'production');
+
 // Define application environment
 defined('APPLICATION_ENV')
  || define('APPLICATION_ENV',

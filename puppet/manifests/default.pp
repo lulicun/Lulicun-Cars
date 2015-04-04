@@ -5,6 +5,14 @@ package { 'curl':
     require => Package['php5']
 }
 
+package { 'memcached':
+    ensure => installed
+}
+
+package { 'redis-server':
+    ensure => installed
+}
+
 class { 'apache':
     mpm_module => 'prefork',
     default_vhost => false
@@ -183,4 +191,27 @@ exec { 'readable logs':
 
 exec { 'update locate db':
     command => 'updatedb',
+}
+
+file { '/var/log/queue.log':
+    ensure => present,
+    mode => 0777,
+    require => Exec['install php libraries']
+}
+
+file { '/etc/init.d/queue':
+    ensure => present,
+    mode => 0755,
+    source => '/vagrant/puppet/files/init.d/queue_local',
+    require => File['/var/log/queue.log']
+}
+
+exec { 'update-rc.d -f queue defaults':
+    command => 'update-rc.d -f queue defaults',
+    require => File['/etc/init.d/queue']
+}
+
+exec {'/etc/init.d/queue start':
+    command => '/etc/init.d/queue start',
+    require => Exec['update-rc.d -f queue defaults']
 }

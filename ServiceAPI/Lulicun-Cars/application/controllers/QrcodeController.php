@@ -27,11 +27,14 @@ class QrcodeController extends BaseController
 			$qrcodeWebUrl = "http://$_SERVER[HTTP_HOST]/qrcodeimg/" . $folderName . '/' . $fileName;
 			$qrcodeAbsoluteFolder = BASE_PATH . '/public/qrcodeimg/' . $folderName;
 			if (!file_exists($qrcodeAbsoluteFolder)) {
-				mkdir($qrcodeAbsoluteFolder, 0777);			
+                //TODO: Codes to make it 777 is not working.
+                $old_umask = umask(0);
+				mkdir($qrcodeAbsoluteFolder, 0777, true); 
+                umask($old_umask);			
 			}
 			$qrcodeAbsoluteFilePath = $qrcodeAbsoluteFolder . '/' . $fileName;
-			
-			$baseDomain = (APPLICATION_ENV != 'local')? 'http://car.lulicun.com/' : 'http://192.168.1.3/';
+			$config = Zend_Registry::get('config');
+			$baseDomain = $config->get('base_url');
 			$stringToQrcode = $baseDomain . '#/qrcodeReminder/' . $contactType . '_' . md5($contact);
 			
 			try{
@@ -68,9 +71,11 @@ class QrcodeController extends BaseController
     	$encryptedContact = $_GET['encryptedContact'];
     	$qrcode = Lulicun_QRCode::getByEncryptedContact($encryptedContact);
     	$contact = $qrcode['contact'];
-    	$template = null;
+    	$firstname = '车主'; //TODO: Get the first name if the user has a account 
+    	$template = 'move_car_reminder.phtml';
+        $subject = 'Lulicun－挪车提醒';
     	try {
-    		$this->_sendEmail($contact, $template);
+    		$this->_sendEmail($contact, $firstname, $template, $subject);
     	} catch (Exception $e) {
     		$this->_helper->json(array('err' => $e->getMessage()));	
     	}
@@ -78,9 +83,35 @@ class QrcodeController extends BaseController
     }
 
     
-    private function _sendEmail($contact, $template) {
+    private function _sendEmail($contact, $firstname = null, $template = 'move_car_reminder.phtml', $subject = 'Lulicun－挪车提醒') {
+
+    	//Get basic settings of from email
+    	$config = Zend_Registry::get('config');
+    	$from = $config->get('email_address')->get('service');
+    	$from_password = $config->get('email_password')->get('service');
+    	$from_name = $config->get('email_from_name')->get('service');
+
+    	//Prepare content to send
+    	$email_template_frame = new Lulicun_EmailView();
+    	$email_template_content = new Lulicun_EmailView();
+    	$greeting = $firstname ? '你好 ' . ucfirst($firstname) . ',' : '';
+    	$email_template_content->greeting = $greeting;
+    	$email_template_frame->content = $email_template_content->render($template);
+        $body = $email_template_frame->render('email_layout.phtml');
+
+    	$email_params = array(
+    		'from' => $from,
+    		'password' => $from_password,
+    		'name' => $from_name,
+    		'to' => $contact,
+    		'subject' => $subject,
+    		'html' => $body,
+    		'replyto' => $from,
+    	);
+
     	$mailer = new Lulicun_Mail();
-    	$response = $mailer->send($contact);
+    	$response = $mailer->send($email_params);
+
     	if (!$response) {
             throw new Zend_Controller_Action_Exception('Could not send email.', 500);
         }	

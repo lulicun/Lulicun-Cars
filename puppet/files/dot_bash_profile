@@ -1,7 +1,8 @@
-alias db="mongo Lulicun"
+alias db="mongo lulicun"
 alias composer="php -d xdebug.remote_enable=0 composer.phar $@"
 alias err="tail -f /var/log/apache2/*error*.log"
 alias qlog="tail -f /var/log/queue.log"
+alias flush="php -d xdebug.remote_enable=0 /var/www/Lulicun-Cars/application/commands/flush_memcache.php"
 
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
