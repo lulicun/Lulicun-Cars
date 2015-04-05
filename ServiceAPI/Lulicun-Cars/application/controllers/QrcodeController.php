@@ -19,12 +19,15 @@ class QrcodeController extends BaseController
 
 	    $qrcode = Lulicun_QRCode::getByContact($contact);
 	    if (!$qrcode || !file_exists($qrcode['filePath'])) {
-		    $contactType = filter_var($contact, FILTER_VALIDATE_EMAIL)? 'email' : 'tele';
+		    $config = Zend_Registry::get('config');
+            $baseDomain = $config->get('base_url');
+
+            $contactType = filter_var($contact, FILTER_VALIDATE_EMAIL)? 'email' : 'tele';
 
 		    $folderName = date('Y-m');
 			$fileName = 'lulicun_'. $contactType . '_' . md5($contact) .'.png';
 			
-			$qrcodeWebUrl = "http://$_SERVER[HTTP_HOST]/qrcodeimg/" . $folderName . '/' . $fileName;
+			$qrcodeWebUrl = $baseDomain . "qrcodeimg/" . $folderName . '/' . $fileName;
 			$qrcodeAbsoluteFolder = BASE_PATH . '/public/qrcodeimg/' . $folderName;
 			if (!file_exists($qrcodeAbsoluteFolder)) {
                 //TODO: Codes to make it 777 is not working.
@@ -33,8 +36,7 @@ class QrcodeController extends BaseController
                 umask($old_umask);			
 			}
 			$qrcodeAbsoluteFilePath = $qrcodeAbsoluteFolder . '/' . $fileName;
-			$config = Zend_Registry::get('config');
-			$baseDomain = $config->get('base_url');
+			
 			$stringToQrcode = $baseDomain . '#/qrcodeReminder/' . $contactType . '_' . md5($contact);
 			
 			try{
