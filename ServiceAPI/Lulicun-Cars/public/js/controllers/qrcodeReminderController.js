@@ -1,4 +1,5 @@
 'use strict';
+
 app.controller('QRCodeReminderCtrl', ['$scope', '$rootScope', '$routeParams', 'requestService',
 	function($scope, $rootScope, $routeParams, requestService) {
 		console.log("QRCodeReminderCtrl");

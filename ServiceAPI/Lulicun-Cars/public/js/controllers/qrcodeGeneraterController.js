@@ -1,4 +1,5 @@
 'use strict';
+
 app.controller('QRCodeGeneraterCtrl', ['$scope', '$rootScope', 'requestService',
 	function($scope, $rootScope, requestService) {
 		console.log("QRCodeGeneraterCtrl");
